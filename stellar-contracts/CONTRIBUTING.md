@@ -7,14 +7,14 @@ Welcome! We appreciate your interest in contributing to the Stellar-Dex-Chat sma
 Before you begin, ensure you have the following installed:
 
 - **Rust**: The primary language for Soroban smart contracts. [Install Rust](https://www.rust-lang.org/tools/install)
-- **Soroban CLI**: Required for building and deploying contracts to the Stellar network. Follow the [Soroban documentation](https://developers.stellar.org/docs/build/smart-contracts/getting-started/setup) to install it.
+- **Stellar CLI**: Required for building and deploying contracts to the Stellar network. Follow the [Stellar CLI documentation](https://developers.stellar.org/docs/build/smart-contracts/getting-started/setup) to install it.
 - **Git**: For source control.
 
 ## Local Setup
 
 1. Fork and clone the repository:
    ```bash
-   git clone https://github.com/<your-username>/Stellar-Dex-Chat.git
+   git clone https://github.com/walterthesmart/Stellar-Dex-Chat.git
    cd Stellar-Dex-Chat/stellar-contracts
    ```
 

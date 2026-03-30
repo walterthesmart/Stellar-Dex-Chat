@@ -1,6 +1,6 @@
 # Contributing
 
-This document covers everything you need to open your first pull request.
+This document covers everything you need to know before opening your first pull request.
 
 ---
 
@@ -43,7 +43,7 @@ stellar --version
 ### 1. Clone the repository
 
 ```bash
-git clone https://github.com/xqcxx/Stellar-Dex-Chat.git
+git clone https://github.com/walterthesmart/Stellar-Dex-Chat.git
 cd Stellar-Dex-Chat
 ```
 
@@ -55,25 +55,13 @@ The frontend requires a `.env.local` file. Copy the example and fill in the valu
 cp .env.example dex_with_fiat_frontend/.env.local
 ```
 
-The required variables are:
-
-```
-NEXT_PUBLIC_STELLAR_CONTRACT_ID=   # deployed Soroban contract ID
-NEXT_PUBLIC_XLM_SAC_ID=            # XLM Stellar Asset Contract ID
-NEXT_PUBLIC_STELLAR_RPC_URL=       # e.g. https://soroban-testnet.stellar.org
-NEXT_PUBLIC_STELLAR_NETWORK=       # TESTNET or PUBLIC
-GEMINI_API_KEY=                    # Google Gemini API key for the AI assistant
-PAYSTACK_SECRET_KEY=               # Paystack secret key for fiat payouts
-PAYOUT_PROVIDER=                   # e.g. paystack
-```
-
-> For local development against testnet you can leave `NEXT_PUBLIC_STELLAR_RPC_URL` pointing at `https://soroban-testnet.stellar.org` and set `NEXT_PUBLIC_STELLAR_NETWORK=TESTNET`.
+The required variables are defined in the README. Ensure you have your `GEMINI_API_KEY` and `PAYSTACK_SECRET_KEY` ready.
 
 ### 3. Install frontend dependencies
 
 ```bash
 cd dex_with_fiat_frontend
-npm ci
+npm install
 ```
 
 ### 4. Run the development server
@@ -94,13 +82,13 @@ cargo build --target wasm32-unknown-unknown --release
 cargo test
 ```
 
-If you use VS Code, the repository includes workspace settings that point Rust Analyzer at [stellar-contracts/Cargo.toml](./stellar-contracts/Cargo.toml). Install the recommended `rust-lang.rust-analyzer` extension when prompted so contract code navigation and diagnostics work out of the box.
+If you use VS Code, install the `rust-lang.rust-analyzer` extension for contract diagnostics.
 
 ---
 
 ## Branch Naming
 
-Use one of the following prefixes followed by a short, hyphen-separated description:
+Use one of the following prefixes:
 
 | Prefix     | When to use                |
 | ---------- | -------------------------- |
@@ -108,13 +96,7 @@ Use one of the following prefixes followed by a short, hyphen-separated descript
 | `fix/`     | Bug fixes                  |
 | `docs/`    | Documentation-only changes |
 
-Examples:
-
-```
-feature/add-swap-confirmation-modal
-fix/wallet-disconnect-on-reload
-docs/update-local-setup-steps
-```
+Example: `feature/add-swap-confirmation-modal`
 
 ---
 
@@ -122,33 +104,7 @@ docs/update-local-setup-steps
 
 This project follows [Conventional Commits](https://www.conventionalcommits.org/).
 
-```
-<type>(<optional scope>): <short description>
-
-[optional body]
-
-[optional footer — e.g. Closes #42]
-```
-
-Allowed types:
-
-| Type    | When to use                             |
-| ------- | --------------------------------------- |
-| `feat`  | A new feature                           |
-| `fix`   | A bug fix                               |
-| `docs`  | Documentation changes only              |
-| `test`  | Adding or updating tests                |
-| `chore` | Tooling, dependency updates, CI changes |
-
-Examples:
-
-```
-feat(swap): add slippage tolerance input
-fix(wallet): clear session on Freighter disconnect
-docs: add Stellar CLI to prerequisites
-test(contract): add coverage for daily limit reset
-chore: upgrade soroban-sdk to 25.3.0
-```
+Example: `feat(swap): add slippage tolerance input`
 
 ---
 
@@ -156,97 +112,49 @@ chore: upgrade soroban-sdk to 25.3.0
 
 ### Contract tests
 
-Run from the `stellar-contracts` directory:
-
 ```bash
 cd stellar-contracts
 cargo test
 ```
 
-All snapshot files under `test_snapshots/` are committed to the repository. If your changes alter contract behaviour, update the snapshots by running:
-
+Update snapshots if contract logic changed:
 ```bash
 cargo test -- --update-snapshots
 ```
 
-and commit the updated files alongside your code changes.
-
-### Frontend build check
-
-Run from the `dex_with_fiat_frontend` directory:
+### Frontend checks
 
 ```bash
+cd dex_with_fiat_frontend
 npm run build
-```
-
-A successful build confirms there are no TypeScript compilation errors.
-
-### Frontend lint
-
-```bash
 npm run lint
-```
-
-### End-to-end tests
-
-Playwright e2e tests require a running dev server:
-
-```bash
-# Install browsers once
-npm run test:e2e:install
-
-# Run all e2e tests
-npm run test:e2e
 ```
 
 ---
 
 ## Submitting a PR
 
-Before opening a pull request, confirm the following checklist:
-
-- [ ] The PR description references the related issue: `Closes #ISSUE_NUMBER`
-- [ ] `cargo test` passes with no failures
-- [ ] `npm run build` completes without errors
-- [ ] `npm run lint` reports no new lint errors
-- [ ] Screenshots or screen recordings are included for any UI changes
-- [ ] Snapshot files are updated if contract behaviour changed
-- [ ] No secrets or `.env.local` values are committed
-
-Open the PR against the `main` branch.
+- [ ] PR description references the related issue: `Closes #ISSUE_NUMBER`
+- [ ] `cargo test` and `cargo clippy` pass
+- [ ] `npm run build` and `npm run lint` pass
+- [ ] Snapshots are updated if necessary
+- [ ] Screenshots included for UI changes
 
 ---
 
 ## Code Style
 
 ### Rust
-
-Format all Rust code with `rustfmt` before committing:
-
+Format with `rustfmt` and check with `clippy`:
 ```bash
-cd stellar-contracts
 cargo fmt
+cargo clippy --all-targets --all-features -- -D warnings
 ```
 
-CI will not enforce formatting automatically, but reviewers will request changes if the diff includes unformatted code.
-
 ### TypeScript
-
-The frontend uses the ESLint configuration defined in `dex_with_fiat_frontend/eslint.config.mjs`, which extends `next/core-web-vitals` and `next/typescript`. Run the linter before pushing:
-
+Format with Prettier and lint with ESLint:
 ```bash
-cd dex_with_fiat_frontend
+npm run format
 npm run lint
 ```
 
-Code formatting is handled by Prettier. To auto-fix formatting in the `src/` directory:
-
-```bash
-npm run format
-```
-
-To check without modifying files:
-
-```bash
-npm run check
-```

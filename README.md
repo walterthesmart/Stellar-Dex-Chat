@@ -129,8 +129,8 @@ Before you begin, ensure you have the following installed:
 ### 1. Clone the Repository
 
 ```bash
-git clone https://github.com/leojay-net/DEX-CHAT.git
-cd DEX-CHAT
+git clone https://github.com/walterthesmart/Stellar-Dex-Chat.git
+cd Stellar-Dex-Chat
 ```
 
 ### 2. Smart Contract Setup
@@ -186,5 +186,8 @@ npm run precommit:eslint
 
 - **[TypeScript SDK Examples](docs/typescript-sdk-examples.md)** - Complete guide for calling new contract functions (`heartbeat`, `deny_address`, `migrate_escrow`, `execute_batch_admin`) from the TypeScript SDK with error handling patterns and code examples.
 
-## Contributing!!
-Contributions and feature reviews are welcome. Please open up an issue to raise bugs or feature requests!
+## Contributing
+
+Contributions and feature reviews are welcome. Please refer to our [Contributing Guide](CONTRIBUTING.md) for setup instructions and pull request guidelines.
+
+If you find a bug or have a feature request, please [open an issue](https://github.com/walterthesmart/Stellar-Dex-Chat/issues).
